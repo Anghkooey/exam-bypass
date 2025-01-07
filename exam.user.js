@@ -2,8 +2,8 @@
 // @name          Exam Bypass
 // @author        https://github.com/Anghkooey/
 // @namespace     https://github.com/Anghkooey/exam-bypass
-// @version       1.0.0
-// @description   Prevents websites from detecting tab switches or window unfocus and enables copying question headers on the platforma.uafm.edu.pl site.
+// @version       1.1.0
+// @description   Prevents websites from detecting tab switches, window unfocus, and fullscreen state, and enables copying question headers on the platforma.uafm.edu.pl site.
 // @include       https://platforma.uafm.edu.pl/*
 // @run-at        document-start
 // ==/UserScript==
@@ -75,6 +75,40 @@
             if (blockedEvents.has(args[0])) return;
             return originalDocumentAddEventListener.apply(thisArg, args);
         },
+    });
+
+    // **Fullscreen Mode Bypass**
+    Object.defineProperty(document, 'fullscreenElement', {
+        get: () => document.documentElement, // Return root element as fullscreen
+    });
+    Object.defineProperty(document, 'fullscreenEnabled', {
+        get: () => true, // Always indicate fullscreen is enabled
+    });
+    Object.defineProperty(document, 'webkitFullscreenElement', {
+        get: () => document.documentElement,
+    });
+    Object.defineProperty(document, 'mozFullScreenElement', {
+        get: () => document.documentElement,
+    });
+    Object.defineProperty(document, 'msFullscreenElement', {
+        get: () => document.documentElement,
+    });
+
+    // Block fullscreen-related events
+    const blockedFullscreenEvents = ['fullscreenchange', 'fullscreenerror'];
+    blockedFullscreenEvents.forEach((event) => {
+        document.addEventListener(event, (e) => {
+            e.stopImmediatePropagation(); // Stop event propagation
+            e.preventDefault();
+        }, true);
+    });
+
+    // Emulate fullscreen window dimensions
+    Object.defineProperty(window, 'innerWidth', {
+        get: () => screen.width, // Return screen width
+    });
+    Object.defineProperty(window, 'innerHeight', {
+        get: () => screen.height, // Return screen height
     });
 })();
 

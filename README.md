@@ -14,7 +14,7 @@
 ### 📥 **_Installation Steps_**
 
 #### 1. **_Download the Script_**  
-**_Click [here](./exam.user.js) to install the userscript._**
+**_Click [here](https://github.com/Anghkooey/exam-bypass/raw/main/exam.user.js) to install the userscript._**
 
 #### 2. **_Add the Script to Tampermonkey_**  
 - **_Open Tampermonkey dashboard._**
